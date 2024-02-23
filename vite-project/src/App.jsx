@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css"
-import { MantineProvider, Table } from '@mantine/core';
+import { MantineProvider, Pagination, Table } from '@mantine/core';
 import "@mantine/core/styles.css"
 import { Button } from '@mantine/core';
+import { usePagination } from '@mantine/hooks';
 function App() {
 
   const [usuarios, setUsuarios] = useState([]);
   const [tablaUsuarios, setTablaUsuarios] = useState([]);
   const [busqueda, setBusqueda] = useState([]);
-  
+  const [page, setPage] = useState(1);
+  const pagination = usePagination({ total: usuarios.length, page, onChange: setPage });
+
   const peticionGet= async ()=>{
     await axios.get('https://jsonplaceholder.typicode.com/users')
     .then(res=>{
@@ -84,7 +87,15 @@ function App() {
       </Table.Thead>
       <Table.Tbody>{rows}</Table.Tbody>
     </Table>
+      <div>
       
+      <Pagination 
+      total={usuarios.length}
+      page={page}
+      limit={pagination.limit}
+      onChange={setPage}
+      />
+      </div>
     </MantineProvider>
   )
 }
