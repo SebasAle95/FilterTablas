@@ -14,6 +14,7 @@ function App() {
     await axios.get('https://jsonplaceholder.typicode.com/users')
     .then(res=>{
       setUsuarios(res.data);
+      console.log(usuarios);
       setTablaUsuarios(res.data);
     }).catch(error=>{
       console.log(error);
